@@ -34,25 +34,26 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = '3619032863';
+    var serviceWorkerVersion = '2835151001';
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
 <body>
   <script>
-    var scriptLoaded = false;
-    function loadMainDartJs() {
-      if (scriptLoaded) {
-        return;
-      }
-      scriptLoaded = true;
-      var scriptTag = document.createElement('script');
-      scriptTag.src = 'main.dart.js';
-      scriptTag.type = 'application/javascript';
-      document.body.append(scriptTag);
-    }
-    loadMainDartJs();
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
   </script>
 </body>
 </html>
